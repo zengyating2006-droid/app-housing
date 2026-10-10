@@ -46,14 +46,22 @@ elif income_choice == "High":
 # 调试：显示剩余数据行数
 st.write("Remaining districts count:", len(filtered_df))
 
-# 地图
+# ============【这里替换掉 st.map！matplotlib静态散点图】============
 if filtered_df.empty:
     st.write("No districts match your filters.")
 else:
-    st.map(filtered_df)
+    fig_map, ax_map = plt.subplots(figsize=(8, 6))
+    ax_map.scatter(filtered_df["longitude"], filtered_df["latitude"], s=5, alpha=0.6)
+    ax_map.set_xlabel("Longitude")
+    ax_map.set_ylabel("Latitude")
+    ax_map.set_title("Spatial Distribution of Housing Districts")
+    st.pyplot(fig_map)
 
 # 直方图
 if not filtered_df.empty:
     fig, ax = plt.subplots()
     ax.hist(filtered_df["median_house_value"], bins=30)
+    ax.set_xlabel("Median House Value")
+    ax.set_ylabel("Count")
+    ax.set_title("Histogram of Median House Value")
     st.pyplot(fig)
